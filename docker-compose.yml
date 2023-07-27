@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-  app:
-    container_name: app
+  kelolafoto_app:
+    container_name: kelolafoto_app
     build:
       context: .
       dockerfile: Dockerfile
