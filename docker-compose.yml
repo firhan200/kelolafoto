@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'php artisan serve --host=0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    networks:
+        - app-networks
+
+  db:
+    container_name: db
+    image: mysql:latest
+    networks:
+      - app-networks
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    ports: 
+      - 3606:3606
+
+networks:
+ app-networks:
+  driver: bridge
+
+volumes:
+  localdata:
+    driver: local
