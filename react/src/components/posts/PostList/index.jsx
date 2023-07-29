@@ -1,9 +1,39 @@
-import { useQueryClient, useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import PerPost from "../PerPost";
+import { socket } from './socket';
+import { useState, useEffect } from 'react';
 
 const API_URL = import.meta.env.VITE_API_URL
 
 export default function PostList(){
+    const [isConnect, setIsConnected] = useState(false);
+
+    const queryClient = useQueryClient();
+
+    useEffect(() => {
+        function onConnect() {
+          setIsConnected(true);
+        }
+    
+        function onDisconnect() {
+          setIsConnected(false);
+        }
+
+        function listenPosts(value) {
+            queryClient.invalidateQueries('posts');
+        }
+    
+        socket.on('connect', onConnect);
+        socket.on('disconnect', onDisconnect);
+        socket.on('posts', listenPosts);
+
+        return () => {
+          socket.off('connect', onConnect);
+          socket.off('disconnect', onDisconnect);
+          socket.off('posts');
+        };
+    }, []);
+
     // Queries
     const { isFetching, data, isLoading, isError, error } = useQuery('posts', async () => {
         const res = await fetch(`${API_URL}/posts`);

@@ -1,0 +1,5 @@
+FROM node:18.17.0-alpine
+WORKDIR /app/www/socketio
+COPY /socketio/package*.json .
+RUN npm ci && npm cache clean --force
+COPY /socketio .

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-
+import { socket } from './../PostList/socket';
 
 export default function AddPost(){
     const [title, setTitle] = useState('');
@@ -15,11 +15,16 @@ export default function AddPost(){
         return res;
     }, {
         onSuccess:() => {
+            queryClient.invalidateQueries('posts');
+
+            socket.emit('posts', {
+                title: title,
+                body: body
+            });
+
             //reset
             setTitle('');
             setBody('');
-
-            queryClient.invalidateQueries('posts');
         },
     });
 
