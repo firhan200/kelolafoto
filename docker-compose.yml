@@ -13,6 +13,22 @@ services:
     networks:
         - app-networks
 
+  react_app:
+    container_name: react_app
+    build:
+      context: .
+      dockerfile: Dockerfile.react
+    command: 'npm run dev'
+    volumes:
+      - ./react:/app/www/react
+      - /app/www/react/node_modules
+    ports:
+      - 3002:3002
+    networks:
+      - app-networks
+    environment:
+       - CHOKIDAR_USEPOLLING=true
+
   kelolafoto_db:
     container_name: kelolafoto_db
     image: mysql:latest
@@ -24,7 +40,9 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_USER: ${DB_USERNAME}
     ports: 
-      - 3606:3606
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+     - localdata:/var/lib/mysql
 
 networks:
  app-networks:
@@ -32,4 +50,3 @@ networks:
 
 volumes:
   localdata:
-    driver: local
