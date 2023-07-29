@@ -53,6 +53,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_USER: ${DB_USERNAME}
+      MYSQL_TCP_PORT: ${DB_PORT}
     ports: 
       - ${DB_PORT}:${DB_PORT}
     volumes:
