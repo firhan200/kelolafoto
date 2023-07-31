@@ -10,5 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: docker compose -f docker-compose.prod.yml down
+      - run: docker compose -f docker-compose.prod.yml build --no-cache
       - run: docker compose -f docker-compose.prod.yml up -d
       - run: docker compose -f docker-compose.prod.yml exec kelolafoto_app php artisan migrate
