@@ -5,9 +5,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: 'php artisan serve --host=0.0.0.0'
+    command:
+      - /bin/sh
+      - -c
+      - |
+        composer install
+        php artisan serve --host=0.0.0.0
     volumes:
       - .:/app
+      - /app/vendor
     ports:
       - 8000:8000
     networks:
@@ -33,7 +39,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.socketio
-    command: '/app/www/socketio/node_modules/cross-env/src/bin/cross-env NODE_ENV=production node /app/www/socketio/server.js'
+    command: '/app/www/socketio/node_modules/.bin/cross-env NODE_ENV=production node /app/www/socketio/server.js'
     volumes:
       - ./socketio:/app/www/socketio
       - /app/www/socketio/node_modules
