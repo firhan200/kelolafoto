@@ -1,0 +1,67 @@
+version: '3.8'
+services:
+  kelolafoto_app:
+    container_name: kelolafoto_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'php artisan serve --host=0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    networks:
+        - app-networks
+
+  react_app:
+    container_name: react_app
+    build:
+      context: .
+      dockerfile: Dockerfile.react
+    volumes:
+      - ./react:/app/www/react
+      - /app/www/react/node_modules
+    ports:
+      - 3002:3002
+    networks:
+      - app-networks
+    environment:
+       - CHOKIDAR_USEPOLLING=true
+  
+  socket_app:
+    container_name: socket_app
+    build:
+      context: .
+      dockerfile: Dockerfile.socketio
+    command: 'NODE_ENV=production node /app/www/socketio/server.js'
+    volumes:
+      - ./socketio:/app/www/socketio
+      - /app/www/socketio/node_modules
+    ports:
+      - 3004:3004
+    networks:
+      - app-networks
+
+  kelolafoto_db:
+    container_name: kelolafoto_db
+    image: mysql:latest
+    networks:
+      - app-networks
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_TCP_PORT: ${DB_PORT}
+      MYSQL_ROOT_HOST: "%"
+    ports: 
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+     - localdata:/var/lib/mysql
+
+networks:
+ app-networks:
+  driver: bridge
+
+volumes:
+  localdata:

@@ -1,13 +1,17 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+const host_origin_url = process.env.NODE_ENV === 'production' ? process.env.HOST_ORIGIN_PRODUCTION : process.env.HOST_ORIGIN_DEV
 const io = new Server({
     cors: {
-      origin: "http://localhost:3002"
+      origin: host_origin_url
     }
 });
+
+console.log("host: "+ host_origin_url)
   
 io.listen(3004);
 

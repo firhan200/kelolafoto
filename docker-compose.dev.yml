@@ -34,7 +34,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.socketio
-    command: 'node /app/www/socketio/server.js'
+    command: '/app/www/socketio/node_modules/cross-env/src/bin/cross-env NODE_ENV=development node /app/www/socketio/server.js'
     volumes:
       - ./socketio:/app/www/socketio
       - /app/www/socketio/node_modules
@@ -51,9 +51,11 @@ services:
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_TCP_PORT: ${DB_PORT}
+      MYSQL_ROOT_HOST: "%"
     ports: 
       - ${DB_PORT}:${DB_PORT}
     volumes:
