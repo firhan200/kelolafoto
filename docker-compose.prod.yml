@@ -33,7 +33,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.socketio
-    command: 'NODE_ENV=production node /app/www/socketio/server.js'
+    command: '/app/www/socketio/node_modules/cross-env/src/bin/cross-env NODE_ENV=production node /app/www/socketio/server.js'
     volumes:
       - ./socketio:/app/www/socketio
       - /app/www/socketio/node_modules
