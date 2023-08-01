@@ -61,7 +61,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_TCP_PORT: ${DB_PORT}
-      MYSQL_ROOT_HOST:  %
+      MYSQL_ROOT_HOST:  "%"
     ports: 
       - ${DB_PORT}:${DB_PORT}
     volumes:
