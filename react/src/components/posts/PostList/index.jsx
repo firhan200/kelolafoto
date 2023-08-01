@@ -52,7 +52,7 @@ export default function PostList(){
     return (
         <div className="dark:text-slate-300">
             <div className="text-xl font-bold">
-                Feeds
+                All Feeds
                 { isFetching ? <span className='dark:text-slate-300'>...</span> : '' }
             </div>
             {
