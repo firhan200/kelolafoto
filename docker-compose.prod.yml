@@ -27,8 +27,7 @@ services:
     volumes:
       - ./react:/app/www/react
       - /app/www/react/node_modules
-    commands:
-      - npm run build
+    command: npm run build
     ports:
       - 3002:3002
     networks:
