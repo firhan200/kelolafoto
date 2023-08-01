@@ -27,6 +27,8 @@ services:
     volumes:
       - ./react:/app/www/react
       - /app/www/react/node_modules
+    commands:
+      - npm run build
     ports:
       - 3002:3002
     networks:
@@ -55,11 +57,11 @@ services:
       - app-networks
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_TCP_PORT: ${DB_PORT}
-      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_HOST:  %
     ports: 
       - ${DB_PORT}:${DB_PORT}
     volumes:

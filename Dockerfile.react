@@ -3,4 +3,3 @@ WORKDIR /app/www/react
 COPY /react/package*.json .
 RUN npm install && npm cache clean --force
 COPY /react .
-RUN npm run build
